@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <meta charset ="utf-8">
+        <script type = "module" defer src="game.mjs"></script>
+    </head>
+    <body>        
+        <div id="canvas-div">
+            <h1>Welcome to the forest of the braconieros</h1>
+            <div id="canvas-button">               
+                <canvas id="mycanvas"></canvas>
+                <!-- <button class="hidden">Replay</button> -->
+            </div>
+            
+            <style>
+                :root{
+                    --buttonWidth:57px;
+                    --buttonHeight:21px
+                }
+
+                body{
+                    display:flex;
+                    align-items:center;
+                    justify-content: center;
+                    flex-direction:column;
+                }
+
+                #canvas-div{
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                }
+                #canvas-button{  
+                    position:relative;
+                }
+
+                button{
+                    position:absolute;
+                    bottom:calc(50% - (var(--buttonHeight ) / 2));
+                    left:calc(50% - (var(--buttonWidth ) / 2));
+                    z-index:4;
+                }
+
+                .hidden{
+                    display:none;
+                }
+            </style>
+            
+        </div>
+
+    </body>
+</html>
