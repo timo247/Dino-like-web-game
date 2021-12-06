@@ -4,19 +4,25 @@ export default class ScoreCounter {
     {
         this.score = score;
         this.text = score;
+        this.scoreLabel = NaN
     }
 
     incrementScore(){
         this.score++;
         this.text = this.score;
-        this.showScoreLabel();
+        this.updateScoreLabel(this.score);
     }
 
-   showScoreLabel(){
-    add([
+   updateScoreLabel(text){
+    this.scoreLabel.text = text;
+   }
+
+   addScoreLabel(){
+    let label = add([
         text(this.score),
         pos(24, 24)
-    ])
+    ]);
+    this.scoreLabel = label;
    }
    
    resetScore(){

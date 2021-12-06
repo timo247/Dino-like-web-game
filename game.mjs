@@ -72,6 +72,7 @@ function spawnObstacle() {
 scene("game", () => {
     //restartHtml.classList.toggle('hidden');
     // add character to screen, from a list of components
+    scoreCounter.addScoreLabel();
     scoreCounter.resetScore();
     let player = add([
         sprite("wipper"),  // renders as a sprite
@@ -89,7 +90,6 @@ scene("game", () => {
         color(127, 200, 255),
     ]);
     console.log(scoreCounter);
-    scoreCounter.showScoreLabel();
     onUpdate(() => {
         scoreCounter.incrementScore();
         //console.log("newscore:", scoreCounter.score)
