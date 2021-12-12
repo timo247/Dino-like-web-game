@@ -1,13 +1,17 @@
-import SceneManager from "./SceneManager.mjs"
+import SceneManager from ".././SceneManager.mjs"
 
 export default class Button {
-    constructor({buttonHeight = 13, buttonWidth = 70, text = "text", sceneManager = new SceneManager, buttonType = NULL} = {}) {
+    constructor({buttonHeight = 13, buttonWidth = 70, text = "text", buttonType = NULL, sceneManager = NaN} = {}) {
         this.buttonHeight = buttonHeight;
         this.buttonWidth = buttonWidth;
         this.text = text;
-        this.sceneManager = sceneManager;
+        this.sceneManager = NaN;
         this.textComponent = NaN;
         this.buttonType = buttonType;
+    }
+
+    addSceneManager(sceneManager){
+        this.sceneManager = sceneManager
     }
 
     addButtonText (){
@@ -37,6 +41,6 @@ export default class Button {
    
 
     listen(){
-            onClick("restartButton", (button) => this.sceneManager.loadScene("game"));
+            onClick("restartButton", (button) => console.log(this));
     }
 }

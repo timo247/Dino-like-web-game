@@ -20,10 +20,17 @@ export default class ScoreCounter {
    addScoreLabel(){
     let label = add([
         text(this.score),
-        pos(24, 24)
+        pos(24, 24),
+        "scoreLabel"
     ]);
     this.scoreLabel = label;
    }
+
+   removeScoreLabel(){
+       console.log("removeScore")
+    every("scoreLabel", destroy)
+   }
+   
    
    resetScore(){
        this.score = 0;
