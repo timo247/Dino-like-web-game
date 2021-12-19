@@ -1,13 +1,17 @@
+//gérer les clicks du bouton
 import SceneManager from ".././SceneManager.mjs"
 
 export default class Button {
-    constructor({buttonHeight = 13, buttonWidth = 70, text = "text", buttonType = NULL, sceneManager = NaN} = {}) {
+    constructor({buttonHeight = 13, buttonWidth = 70, text = "text", buttonType = NULL, sceneManager = NaN, sceneTag = "not defined"} = {}) {
         this.buttonHeight = buttonHeight;
         this.buttonWidth = buttonWidth;
         this.text = text;
-        this.sceneManager = NaN;
+        this.sceneManager = sceneManager;
         this.textComponent = NaN;
+        this.buttonRect = NaN;
         this.buttonType = buttonType;
+        this.sceneTag = sceneTag;
+
     }
 
     addSceneManager(sceneManager){
@@ -28,19 +32,34 @@ export default class Button {
     }
 
     addButtonRec(){
-        add([
+        this.buttonRect = add([
             pos(0.9* this.textComponent.pos.x, this.textComponent.pos.y - 0.16 * this.textComponent.height),
             rect(this.textComponent.width *1.1, this.textComponent.height + 0.6 * this.textComponent.height),
             outline(4),
-            area(),
+            area( {cursor: "pointer"}),
             z(3),
             "button",
             this.buttonType
         ])
-    }
-   
 
-    listen(){
-            onClick("restartButton", (button) => console.log(this));
+        this.buttonRect.onUpdate(() => {
+            if (this.buttonRect.isHovering()) {
+                const t = time() * 10
+                this.buttonRect.color = rgb(
+                    wave(0, 255, t),
+                    wave(0, 255, t + 2),
+                    wave(0, 255, t + 4),
+                )
+                this.buttonRect.scale = vec2(1.2)
+                this.buttonRect.onClick(() => go("gameScene"))
+            } else {
+                this.buttonRect.scale = vec2(1)
+                this.buttonRect.color = rgb()
+            }
+        })
+
+        
+
+
     }
 }

@@ -1,15 +1,18 @@
 import ScoreCounter from "../score.mjs";
+import k from "../main.mjs"
 
 
 
 export default class mainGame {
-    constructor({ sceneName = "gameScene", scoreCounter = NaN, player = NaN, jumpForce = 600, isActivated = true } = {}) {
+    constructor({ sceneName = "gameScene", scoreCounter = NaN, player = NaN, jumpForce = 600} = {}) {
         this.scoreCounter = scoreCounter
         this.sceneName = sceneName
         this.player = player
         this.jumpForce = jumpForce
         this.sceneManager = NaN
-        this.isActivated = isActivated
+        this.nTimesLoaded = 0
+        this.obstacles = []
+        this.addScene = this.addScene.bind(this)
     }
 
 
@@ -33,7 +36,6 @@ export default class mainGame {
     }
 
     spawnObstacle() {
-        if (this.isActivated) {
             add([
                 this.randomObstacle(),
                 area(),
@@ -42,47 +44,28 @@ export default class mainGame {
                 origin("botleft"),
                 move(LEFT, 200),
                 "obstacle", // add a tag here
+                this.sceneName
             ]);
             wait(rand(0.5, 1.5), () => {
                 this.spawnObstacle();
             });
-        }
 
     }
-
-    loadSprites() {
-        loadSprite("wipper", "sprites/wipper.png");
-        loadSprite("ground", "sprites/ground.png");
-        loadSound("laser", "sounds/laser.mp3");
-        loadSprite("tree1", "sprites/tree1.png");
-        loadSprite("tree2", "sprites/tree2.png");
-        loadSprite("tree3", "sprites/tree3.png");
-        loadSprite("rock1", "sprites/rock1.png");
-        loadSprite("rock2", "sprites/rock2.png");
-    }
-
 
     addSceneManager(sceneManager) {
         this.sceneManager = sceneManager;
     }
 
-    activateScene() {
-        this.isActivated = true;
-    }
 
-    desactivateScene() {
-        this.isActivated = false;
-        every(this.sceneName, destroy);
-    }
     addScene() {
-        if (this.isActivated) {
-
-            this.loadSprites();
-            this.scoreCounter.addScoreLabel();
+            console.log(this)
+            this.nTimesLoaded++;
             this.scoreCounter.resetScore();
-        } else {
-            this.scoreCounter.removeScoreLabel();
-        }
+
+                this.scoreCounter.addScoreLabel();
+                this.scoreCounter.resetScore();
+           
+            
         let player = add([
             sprite("wipper"),  // renders as a sprite
             pos(120, 80),    // position in world
@@ -90,7 +73,9 @@ export default class mainGame {
             body(),
             this.sceneName          // responds to physics and gravity
         ]);
-        add([
+        console.log(player)
+
+        let obstacle = add([
             sprite("ground"),
             pos(-10, height() - 48),
             outline(4),
@@ -99,12 +84,10 @@ export default class mainGame {
             color(127, 200, 255),
             this.sceneName
         ]);
+
+        this.obstacles.push(obstacle)
         onUpdate(() => {
-            if (this.isActivated) {
                 this.scoreCounter.incrementScore();
-            } else {
-                this.scoreCounter.removeScoreLabel();
-            }
             //console.log("newscore:", scoreCounter.score)
         });
 
@@ -118,10 +101,17 @@ export default class mainGame {
         player.onCollide("obstacle", () => {
             addKaboom(player.pos);
             shake();
-            this.sceneManager.loadScene("loseScene", this.sceneName); // go to "lose" scene here
+            this.scoreCounter.removeScoreLabel();
+            //go("loseScene")
+            this.sceneManager.switchScene("loseScene"); // go to "lose" scene here
         });
         this.spawnObstacle();
 
+
+    }
+
+    loadScene() {
+        return k.scene(this.sceneName, this.addScene)
     }
 
 

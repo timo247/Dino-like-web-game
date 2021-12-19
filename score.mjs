@@ -10,12 +10,9 @@ export default class ScoreCounter {
     incrementScore(){
         this.score++;
         this.text = this.score;
-        this.updateScoreLabel(this.score);
+        this.scoreLabel.text = this.score;
     }
 
-   updateScoreLabel(text){
-    this.scoreLabel.text = text;
-   }
 
    addScoreLabel(){
     let label = add([

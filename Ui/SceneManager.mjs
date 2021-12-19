@@ -12,12 +12,11 @@ export default class SceneManager{
     }
 
     
-    loadScene(sceneToLoad, lastScene){
-        let sceneFound = this.getSceneByName(sceneToLoad)
-        let sceneToRemove = this.getSceneByName(lastScene);
-        console.log(sceneToRemove);
-        sceneToRemove.desactivateScene();
-       sceneFound.addScene(true)
+    switchScene(sceneToSwitch){
+        let sceneFound = this.getSceneByName(sceneToSwitch) 
+        console.log(sceneFound)
+        sceneFound.loadScene();      
+        go(sceneFound.sceneName)
     }
 
     
